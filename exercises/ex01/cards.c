@@ -33,3 +33,10 @@ int main(){
         printf("Current count: %i\n", count);
     }
 }
+
+const char* get_input(){
+    puts("Enter the card_name: ");
+    char card_name[3]*;
+    scanf("%2s", card_name);
+    return card_name;
+}
