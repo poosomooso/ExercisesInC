@@ -52,14 +52,33 @@ the error messages you get might look very different.  Why?
 
 1) Give a real-world example of virtualization (ideally not one of the ones in the book).
 
+> Grocery stores give an illusion that people have large quantities of fresh food close by,
+> but much of the food is imported, and there are lots of logistical work needed to get
+> the food to the grocery stores.
+
 2) What is the difference between a program and a process?
+
+> A process is an object that occupies the entirety of a computer's memory; it contains the
+> code, globals, constants, heap, and stack. Processes are isolated from one another. Programs
+> are run by one or more processes (and processes can run multiple programs). Programs are the
+> actual code; processes are the running instances of programs.
 
 3) What is the primary purpose of the process abstraction?  What illusion does the process abstraction create?
 
+> Process abstraction allows more than one process to be run on the computer at once. Even
+> though processes need to take up the full layers of memory in a computer, the OS handles
+> multiple processes, making sure they run in turn, and saving/erasing the hardware states
+> of the different processes as they switch off. It creates the illusion that your computer
+> can run multiple processes.
+
 4) What is the kernel?
+
+> The kernel is part of the OS, and is responsible for core OS operations like threading
+> and managing processes.
 
 5) What is a daemon?
 
+> A daemon is a process that runs in the background of the OS.
 
 ## Chapter 3
 
