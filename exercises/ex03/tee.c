@@ -38,5 +38,5 @@ better job. Basically, I tested after writing the basic functionality, and then
 again after implementing the options. I didn't have a horrible time, but
 debugging might have been easier if I had tested after every step.
 
-Comparison to real code:
+Comparison to real code (http://git.savannah.gnu.org/cgit/coreutils.git/tree/src/tee.c):
 */
