@@ -1,8 +1,8 @@
-/* Example code for Exercises in C.
+/* Completed LinkedList implementation in C.
 
 Based on an example from http://www.learn-c.org/en/Linked_lists
 
-Copyright 2016 Allen Downey
+Copyright 2016 Allen Downey and Serena CHen
 License: Creative Commons Attribution-ShareAlike 3.0
 
 */
