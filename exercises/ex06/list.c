@@ -17,7 +17,7 @@ typedef struct node {
 
 
 /* Makes a new node structure.
- * 
+ *
  * val: value to store in the node.
  * next: pointer to the next node
  *
@@ -32,7 +32,7 @@ Node *make_node(int val, Node *next) {
 
 
 /* Prints the values in a list.
- * 
+ *
  * list: pointer to pointer to Node
  */
 void print_list(Node **list) {
@@ -48,29 +48,32 @@ void print_list(Node **list) {
 
 
 /* Removes and returns the first element of a list.
- * 
+ *
  * list: pointer to pointer to Node
  *
  * returns: int or -1 if the list is empty
  */
 int pop(Node **list) {
-    // FILL THIS IN!
-    return 0;
+    int val = (*list)->val;
+    *list = (*list)->next;
+    return val;
 }
 
 
 /* Adds a new element to the beginning of the list.
- * 
+ *
  * list: pointer to pointer to Node
  * val: value to add
  */
 void push(Node **list, int val) {
-    // FILL THIS IN!
+    Node **first = malloc(sizeof(Node*));
+    *first = make_node(val, *list);
+    *list = *first;
 }
 
 
 /* Removes the first element with the given value
- * 
+ *
  * Frees the removed node.
  *
  * list: pointer to pointer to Node
@@ -79,19 +82,37 @@ void push(Node **list, int val) {
  * returns: number of nodes removed
  */
 int remove_by_value(Node **list, int val) {
-    // FILL THIS IN!
-    return 0;
+    int removed_nodes = 0;
+    Node *current = *list;
+    while(current->next != NULL){
+        if(current->next->val == val){
+            removed_nodes++;
+            current->next = current->next->next;
+        }
+        else{
+            current = current->next;
+        }
+    }
+    return removed_nodes;
 }
 
 
 /* Reverses the elements of the list.
  *
  * Does not allocate or free nodes.
- * 
+ *
  * list: pointer to pointer to Node
  */
 void reverse(Node **list) {
-    // FILL THIS IN!
+    Node *next = *list;
+    Node *previous = NULL;
+    while(next != NULL){
+        Node *next_temp = next->next;
+        next->next = previous;
+        previous = next;
+        next = next_temp;
+    }
+    *list = previous;
 }
 
 
