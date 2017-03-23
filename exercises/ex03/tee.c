@@ -39,4 +39,9 @@ again after implementing the options. I didn't have a horrible time, but
 debugging might have been easier if I had tested after every step.
 
 Comparison to real code (http://git.savannah.gnu.org/cgit/coreutils.git/tree/src/tee.c):
+The real code had a lot more error checking and is much more robust. There was
+a lot of code dedicated to the arguments that I ignored. Writing to the buffer was also
+part of the if statement, for further error checking. The tee function was also separate
+from the main--the main handles the arguments and the framework for accepting the command,
+and the tee function executes the command.
 */
