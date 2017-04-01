@@ -236,17 +236,32 @@ If you can find the technical specifications for your computer, see if your infe
 ### Multitasking
 
 1) What is the kernel's most basic task?
+> Handling interrupts, scheduling
 
 2) When an interrupt occurs, what part of the hardware state is saved by hardware?
+> The interrupt handler saves the contents of different registers, as well as a program
+> counter to save where in the previous process the process was. It also stores the flag
+> register.
 
 3) What is the difference between an interrupt and a context switch?
+> An interrupt temporarily stops the process, only saves the registers it needs to use,
+> and then after the interrupt is over, it goes right back to the original process. A
+> context switch will switch gears to an entirely different process. It will save
+> all of the information in registers and load new data into the cache. Context
+> switches will happen every time slice.
 
 4) Give an example of an event that might cause a process to move from the blocked to the ready state.
+> Disk request has been granted, or user input is received.
 
 5) Why might a scheduler want to give higher priority to an I/O bound process?
+> Because once it is in the ready state, the user will be expecting a fast response.
+> It doesn't take up more time because it spends a lot of time being blocked, and
+> so it is not switched in.
 
-When I make French toast, I usually make a batch of 12 slices.  But my griddle only has room for 8 slices.  Each piece of toast has to cook for 5 minutes on each side.  How can I schedule 12 slices onto 8 "cores" to minimize the elapsed time to cook all 12 slices?  (Note: this question is not hypothetical; this is really how I make French toast.)
-
+6) When I make French toast, I usually make a batch of 12 slices.  But my griddle only has room for 8 slices.  Each piece of toast has to cook for 5 minutes on each side.  How can I schedule 12 slices onto 8 "cores" to minimize the elapsed time to cook all 12 slices?  (Note: this question is not hypothetical; this is really how I make French toast.)
+> Put 8 slices on the griddle, after 5 minutes, remove 4 slices, and replace them with new slices,
+> and flip the other 4. After 5 minutes, remove the flipped slices, flip the new slices, and
+cook the four slices you had removed during the first switch. Total: 15 min.
 
 
 ## Chapter 9
