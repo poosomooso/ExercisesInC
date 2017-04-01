@@ -314,6 +314,7 @@ Value *list_lookup(Node *list, Hashable *key)
 typedef struct map {
     int n;
     Node **lists;
+    size_t size;
 } Map;
 
 
@@ -325,8 +326,9 @@ Map *make_map(int n)
     Map *map = (Map *) malloc (sizeof (Map));
     map->n = n;
     map->lists = (Node **) malloc (sizeof (Node *) * n);
+    map->size = 0;
     for (i=0; i<n; i++) {
-	map->lists[i] = NULL;
+	       map->lists[i] = NULL;
     }
     return map;
 }
@@ -338,17 +340,49 @@ void print_map(Map *map)
     int i;
 
     for (i=0; i<map->n; i++) {
-	if (map->lists[i] != NULL) {
-	    printf ("%d\n", i);
-	    print_list (map->lists[i]);
-	}
+    	if (map->lists[i] != NULL) {
+    	    printf ("%d\n", i);
+    	    print_list (map->lists[i]);
+    	}
     }
+}
+
+/* Doubles the size of the table */
+void resize(Map *map)
+{
+    int i;
+    int new_size = map->n * 2;
+    Node **new_list = (Node **) malloc (sizeof (Node *) * new_size);
+    for (i=0; i<new_size; i++) {
+	    new_list[i] = NULL;
+    }
+
+    Node **old_list = map->lists;
+    int old_size = map->n;
+    map->lists = new_list;
+    map->n = new_size;
+    map->size = 0;
+
+    for (i=0; i<old_size; i++) {
+       Node *current = old_list[i];
+       while(current != NULL){
+           map_add(map, current->key, current->value);
+           Node *next = current->next;
+           free(current);
+           current = next;
+       }
+    }
+    free(old_list);
 }
 
 
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
 {
+    map->size++;
+    if(map->size == map->n){
+        resize(map);
+    }
     Node *new_node = make_node(key, value, NULL);
     int index = hash_hashable(key) % map->n;
     if(map->lists[index] == NULL){
@@ -410,7 +444,7 @@ int main ()
 
     // make a map
     puts("\nmake a map");
-    Map *map = make_map(10);
+    Map *map = make_map(2);
     map_add(map, hashable1, value1);
     map_add(map, hashable2, value2);
 
