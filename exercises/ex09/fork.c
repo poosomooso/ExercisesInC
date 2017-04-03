@@ -18,19 +18,18 @@ License: MIT License https://opensource.org/licenses/MIT
 // errno is an external global variable that contains
 // error information
 extern int errno;
-
+int z = 10;
 
 // get_seconds returns the number of seconds since the
 // beginning of the day, with microsecond precision
 double get_seconds() {
     struct timeval tv[1];
-
     gettimeofday(tv, NULL);
     return tv->tv_sec + tv->tv_usec / 1e6;
 }
 
 
-void child_code(int i) 
+void child_code(int i)
 {
     sleep(i);
     printf("Hello from child %d.\n", i);
@@ -54,48 +53,60 @@ int main(int argc, char *argv[])
     } else {
       num_children = 1;
     }
-    
+
     // get the start time
     start = get_seconds();
-    
+    int *x = malloc(sizeof(int));
+    x = 3;
+    static int y = 6;
+
     for (i=0; i<num_children; i++) {
-      
         // create a child process
         printf("Creating child %d.\n", i);
-	pid = fork();
-      
-	/* check for an error */
-	if (pid == -1) {
-	    fprintf(stderr, "fork failed: %s\n", strerror(errno));
-	    perror(argv[0]);
-	    exit(1);
-	}
-      
-	/* see if we're the parent or the child */
-	if (pid == 0) {
-	  child_code(i);
-	}
+
+	    pid = fork();
+        printf("%i %ld %f\n", argc, (long) pid, start);
+        printf("%i %i %i\n", x, y, z);
+    	/* check for an error */
+    	if (pid == -1) {
+    	    fprintf(stderr, "fork failed: %s\n", strerror(errno));
+    	    perror(argv[0]);
+    	    exit(1);
+    	}
+    	/* see if we're the parent or the child */
+    	if (pid == 0) {
+            z++;
+            printf("%i\n", z);
+    	  child_code(i); //exit statement in this code
+    	}
     }
-    
+
     /* parent continues */
     printf("Hello from the parent.\n");
-    
+
     for (i=0; i<num_children; i++) {
-        pid = wait(&status);
-      
-	if (pid == -1) {
-	    fprintf(stderr, "wait failed: %s\n", strerror(errno));
-	    perror(argv[0]);
-	    exit(1);
-	}
-	
-	// check the exit status of the child
-	status = WEXITSTATUS(status);
-	printf("Child %d exited with error code %d.\n", pid, status);
+        pid = wait(&status); //waits for the children to exit
+
+    	if (pid == -1) {
+    	    fprintf(stderr, "wait failed: %s\n", strerror(errno));
+    	    perror(argv[0]);
+    	    exit(1);
+    	}
+
+    	// check the exit status of the child
+    	status = WEXITSTATUS(status);
+    	printf("Child %d exited with error code %d.\n", pid, status);
     }
     // compute the elapsed time
     stop = get_seconds();
     printf("Elapsed time = %f seconds.\n", stop - start);
-    
+    puts("\n\n");
     exit(0);
 }
+
+/*
+At the line `pid = fork()`, it creates a new process that starts at that line.
+in the parent process, pid gets assigned the pid of the child, and in the child
+process, pid gets assigned 0. All local, static, and heap variables are the
+same, but changes to the variables do not carry over to the other processes.
+*/
