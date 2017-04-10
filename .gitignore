@@ -1,3 +1,7 @@
+# executables without extension
+*
+!*.*
+
 # Object files
 *.o
 *.ko
