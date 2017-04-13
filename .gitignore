@@ -1,6 +1,7 @@
 # executables without extension
 *
 !*.*
+!(Makefile)
 
 # Object files
 *.o
