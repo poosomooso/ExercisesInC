@@ -6,8 +6,6 @@ License: Creative Commons Attribution-ShareAlike 3.0
 Started with ex-ghashtable-3.c from
 http://www.ibm.com/developerworks/linux/tutorials/l-glib/section5.html
 
-Note: this version leaks memory.
-
 */
 
 #include <stdio.h>
@@ -76,6 +74,7 @@ void incr (GHashTable* hash, gchar *key)
     }
 }
 
+/* Frees the pair struct. Is also a `GDestroyNotify` function */
 void pair_free (gpointer data){
     Pair *pair = (Pair*) data;
     g_free(pair);
@@ -130,8 +129,7 @@ int main (int argc, char** argv)
     // iterate the sequence and print the pairs
     g_sequence_foreach (seq,  (GFunc) pair_printor, NULL);
 
-    // try (unsuccessfully) to free everything
-    // (in a future exercise, we will fix the memory leaks)
+    // try to free everything
     g_hash_table_destroy (hash);
     g_sequence_free (seq);
 
