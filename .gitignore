@@ -1,7 +1,7 @@
 # executables without extension
-*
-!*.*
-!(Makefile)
+exercises/*/*
+!exercises/*/*.*
+!exercises/*/Makefile
 
 # Object files
 *.o
